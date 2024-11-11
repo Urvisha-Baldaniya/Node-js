@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .inner{
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        body{
+            background-color: #EBD3F8;
+        }
+
+        form input{
+            border: none;
+            border-radius: 5px;
+            width: 250px;
+            background-color: #E9EFEC;
+            display: block;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        form select{
+            margin: 15px 0;
+        }
+        form{
+            padding:40px 0 30px 90px;
+            width: 370px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: #fff;
+            margin: 0 10px;
+        }
+        label{
+            font-size: 18px;
+        }
+        button{
+            border: none;
+            background-color: #AD49E1;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 20px;
+            margin: 10px 0 0 100px;
+            
+        }
+        .pages{
+            text-align: center;
+            margin: 20px 0;
+        }
+        a{
+            text-decoration: none;
+            display: inline-block;
+            background-color: #fff;
+            padding: 10px 15px;
+            color: rgba(0,0,0,.87);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main">
+    <div class="pages">
+        <a href="/products/getData">Home</a>
+        <a href="/auth/registerPage">SignUp</a>
+        <a href="/auth/loginPage">Login</a>
+     </div>
+     
+     
+     <div class="inner">
+    <form method="POST" action="/addFormData" id="form">
+           <div>
+            <label>Product:-</label>
+            <input type="text" placeholder="Enter Product Name" id="proName"/>
+        </div>
+        <div>
+            <label>Price:-</label>
+            <input type="number" placeholder="Enter Your Price" id="price"/>
+        </div>
+        <div>
+            <label>Rate:-</label>
+            <input type="number" placeholder="Enter Your Rating" id="rating"/>
+        </div>
+        <div>
+            <label>Category:-</label>
+            <select name="" id="category">
+                <option value="">Select Category</option>
+                <option value="clothes">Clothes</option>
+                <option value="electonics">electonics</option>
+                <option value="shoes">shoes</option>
+            </select>
+        </div>
+        <div>
+            <label>Quantity:-</label>
+            <input type="number" placeholder="Enter Your Quantity" id="quantity"/>
+        </div>
+        <div>
+            <label>Description:-</label>
+            <input type="text" placeholder="Enter Your Description" id="description"/>
+        </div>
+
+        
+            <button>Submit</button>
+        
+    </form>
+</div>
+</div>
+    
+    <script>
+        //catching the form with id
+       let form =  document.querySelector('#form');
+
+       //add event listener to the form
+       form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+         let proName = document.querySelector('#proName').value;
+         let price = document.querySelector('#price').value;
+         let rating = document.querySelector('#rating').value;
+         let category = document.querySelector('#category').value;
+         let quantity = document.querySelector('#quantity').value;
+         let description = document.querySelector('#description').value;
+        
+         fetch("/products/formData", {
+            method: "POST",
+            body:JSON.stringify({proName, price, rating, category, quantity, description}),
+            headers:{
+                "Content-Type": "application/json;charset=UTF-8"
+            }
+         }).then((res)=> res.json())
+           .then((data)=> console.log(data))
+           .catch((err)=> console.log(err))
+
+           document.querySelector('#proName').value = "";
+           document.querySelector('#price').value = "";
+           document.querySelector('#rating').value = "";
+           document.querySelector('#category').value = "";
+           document.querySelector('#quantity').value ="";
+           document.querySelector('#description').value = "";
+       })
+
+    </script>
+</body>
+</html>

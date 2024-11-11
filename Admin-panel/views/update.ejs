@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+            
+        }
+        .inner{
+            display: flex;
+           
+        }
+       form{
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+           background-color: #fff; 
+           width: 330px;
+           padding: 50px;
+           height: 380px;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+        }
+        input{
+            border: none;
+            width: 230px;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            background-color: #E9EFEC;
+            outline-color: #EBD3F8;
+        }
+        
+        button{
+            border: none;
+            padding: 10px 20px;
+            margin:30px 0 0 35px;
+            background-color: #8baed6;
+            color: #fff;
+            font-weight: bold;
+            display: inline-block;
+            text-decoration: none;
+        }
+        ::placeholder{
+            font-size: 12px;
+        }
+        img{
+            object-fit: cover;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+       
+    </style>
+</head>
+<body>
+
+<div class="inner">
+    <form id="form" method="POST" action="">
+        <h1>Change Password</h1>
+
+        <div>
+           
+            <input type="email" placeholder="Email" id="email"/>
+        </div>
+
+        <div>
+            
+            <input type="password" placeholder="old password" id="oldPass"/>
+        </div>
+
+        <div>
+            
+            <input type="password" placeholder="New Password" id="newPass"/>
+        </div>
+
+        <div>
+            <button id="changePass">Change Password</button>
+        </div>
+    </form>
+    <div class="bg">
+        <img src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg" width="300px" height="380px"/>
+    </div>
+</div>
+
+    
+
+    <script>
+        
+        let changePass = document.querySelector('#changePass');
+
+        let form = document.querySelector('#form');
+
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+
+            let oldPass = document.querySelector('#oldPass').value;
+            let email = document.querySelector('#email').value;
+            let newPass = document.querySelector('#newPass').value;
+
+            fetch("/auth/changePass",{
+                method : "POST",
+                body:JSON.stringify({oldPass, email, newPass}),
+                headers:{
+                    "Content-Type": "application/json;charset=UTF-8"
+                }
+            })
+            .then((res)=> console.log("user added successfully"))
+            .catch((error)=> console.log("something is wrong in fetch", error))
+
+            document.querySelector('#oldPass').value = "";
+            document.querySelector('#email').value = "";
+            document.querySelector('#newPass').value = "";
+
+        })
+    </script>
+</body>
+</html>

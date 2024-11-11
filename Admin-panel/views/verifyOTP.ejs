@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+
+        }
+
+        .inner {
+            display: flex;
+
+        }
+
+        form {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: #fff;
+            width: 300px;
+            padding: 30px 70px 50px 30px;
+            height: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            border: none;
+            width: 200px;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            background-color: #E9EFEC;
+            outline-color: #EBD3F8;
+        }
+
+        button {
+            border: none;
+            padding: 10px 20px;
+            margin: 30px 0 0 35px;
+            background-color: #8baed6;
+            color: #fff;
+            font-weight: bold;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        ::placeholder {
+            font-size: 12px;
+        }
+
+        img {
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="inner">
+        <form id="resetForm">
+            <h1>Verify OTP</h1>
+            <div>
+                <input type="text" id="email" placeholder="Enter Your Email" name="email" />
+            </div>
+            <div>
+                <input type="text" id="otp" placeholder="Enter Your OTP" name="otp" />
+            </div>
+            <div>
+                <input type="password" id="newpassword" placeholder="Enter Your Newpass" name="newPassword" />
+            </div>
+            <div>
+                <button>Reset Password</button>
+            </div>
+        </form>
+        <div>
+            <img src="https://img.freepik.com/premium-vector/otp-authentication-secure-verification_7087-3082.jpg"
+                width="350px" height="350px" />
+        </div>
+    </div>
+
+    <script>
+        let resetForm = document.querySelector("#resetForm")
+        resetForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let otp = document.querySelector("#otp").value;
+            let newpassword = document.querySelector("#newpassword").value;
+            let email = document.querySelector("#email").value;
+            console.log(otp, newpassword)
+
+            fetch("/auth/verifyOTP", {
+                method: "POST",
+                body: JSON.stringify({ email, otp, newpassword }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => console.log(data, "otp sent"))
+                .catch((error) => console.log(error))
+
+            document.querySelector("#email").value = "";
+            document.querySelector("#otp").value = "";
+            document.querySelector("#newpassword").value = "";
+        })
+    </script>
+</body>
+
+</html>

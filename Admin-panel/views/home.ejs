@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #EBD3F8;
+        }
+        .main{
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+        .inner{
+            background-color: #fff;
+            padding: 20px;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            align-items: flex-end;
+        }
+        h2{
+            font-size: 18px;
+            font-weight: 500;
+            margin: 5px 0;
+        }
+        .delete{
+            border: none;
+            font-size: 11px;
+            padding: 6px 10px;
+            background-color: #F5004F;
+            color: #fff;
+        }
+        .edit{
+            border: none;
+            font-size: 11px;
+            padding: 6px 10px;
+            background-color: #4E31AA;
+            color: #fff;
+            margin-top: 10px;  
+        }
+        .pages{
+            text-align: center;
+            margin: 20px 0;
+        }
+        a{
+            text-decoration: none;
+            display: inline-block;
+            background-color: #fff;
+            padding: 10px 15px;
+            color: rgba(0,0,0,.87);
+        }
+        .button{
+           margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pages">
+        <a href="/products/form">Form</a>
+        <a href="/auth/registerPage">SignUp</a>
+        <a href="/auth/loginPage">Login</a>
+     </div>
+
+    <h1 style="text-align: center;">Welcome to home page</h1>
+    
+    <div class="main">
+        <% data.map((item)=>{ %>
+            <div class="inner">
+                <div>
+                    <h2>Name: <%= item.proName %></h2>
+                    <h2>Price: <%= item.price %></h2>
+                    <h2>Rate: <%= item.rating %></h2>
+                    <h2>Category: <%= item.category %></h2>
+                    <h2>Quantity: <%= item.quantity %></h2>
+                    <h2>Description: <%= item.description %></h2>
+                </div>
+                <div class="button">
+                    <button onclick="deleteFun('<%= item._id %>')" class="delete">Delete</button>
+                    <br/>
+                    
+                    <a href="/products/editData/<%= item._id %>" class="edit">Edit</a>
+                </div>
+            </div>
+       <% }) %>
+
+       
+    </div>
+
+    <script>
+        function deleteFun(id){
+            fetch(`/products/delete/${id}`, {
+                method: "DELETE"
+            }).then((res)=>{
+                console.log("data deleted successfully")
+            })
+            .catch((error)=> console.log("something went wrong", error))
+            window.location.reload()
+        }
+
+       function editFun(){
+         fetch(`/products/editData`,{
+            method: "POST"
+         })
+       }
+    </script>
+</body>
+</html>

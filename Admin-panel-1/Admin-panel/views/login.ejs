@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        .inner{
+            display: flex;
+        }
+        form{
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: #fff;
+           width: 340px;
+           padding: 20px;
+           height: 370px;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input{
+            border: none;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            width: 300px;
+            background-color: #E9EFEC;
+            outline-color: #EBD3F8;
+        }
+        button{
+            border: none;
+            padding: 10px 20px;
+            margin:15px 0 0 35px;
+            background-color: #3ba2f7;
+            color: #fff;
+            font-weight: bold;
+            
+        }
+        .btn{
+            display: flex;
+            justify-content: center;
+        }
+        ::placeholder{
+            font-size: 12px;
+        }
+        .pages{
+            text-align: center;
+            margin: 20px 0;
+        }
+        .pages a{
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: #fff;
+            margin: 0 3px;
+            font-size: 15px;
+        }
+        a{
+            text-decoration: none;
+            display: inline-block;
+            background-color: #fff;
+            padding: 10px 15px;
+            color: rgba(0,0,0,.87);
+        }
+       img{
+        object-fit: cover;
+       }
+       .pass{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        
+       }
+       .pass a{
+        color: blue;
+        text-decoration: underline;
+       }
+    </style>
+</head>
+<body>
+    <div class="main">
+    <div class="pages">
+        <a href="/products/getData">Home</a>
+        <a href="/products/form">Form</a>
+        <a href="/auth/registerPage">SignUp</a>
+     </div>
+
+    <div class="inner">
+
+        <div class="bg">
+            <img src="https://img.freepik.com/premium-vector/computer-account-login-password_165488-5473.jpg" width="420px" height="370px"/>
+        </div>
+        <form method="POST" id="form">
+
+            <h1>Login</h1>
+            <div>
+                <input type="email" placeholder="Enter Your Email" id="email"/>
+            </div>
+            <div>
+                <input type="password" placeholder="Enter Your password" id="password"/>
+            </div>
+            <div class="pass">
+                <a href="/auth/updatePass" class="update">Change Password?</a>
+                <a href="/auth/generatotp">Forgot Password?</a>
+            </div>  
+            <div class="btn">
+                <button id="login">Login</button>
+            </div>
+            
+        </form>
+    
+    </div> 
+</div>   
+
+    <script>
+        let login = document.querySelector('#login');
+
+        let form = document.querySelector('#form');
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+
+            let email = document.querySelector('#email').value;
+            let password = document.querySelector('#password').value;
+
+            fetch("/auth/login",{
+                method:"POST",
+                body:JSON.stringify({email, password}),
+                headers:{
+                    "Content-Type": "application/json; charset=UTF-8"
+                }
+
+            })  .then((res)=> res.json())
+                .then((data)=> console.log(data))
+                .catch((error)=> console.log("something is wrong",error))
+                document.querySelector('#email').value = "";
+                document.querySelector('#password').value = "";
+        })
+    </script>
+</body>
+</html>
